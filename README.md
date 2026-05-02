@@ -7,23 +7,21 @@ The pipeline extracts physiological features (EDA, HR, ACC, TEMP) over sliding w
 
 ---
 
-## File Structure & Renaming Guide (For Research Reusability)
+## File Structure
 
-To ensure this repository is modular, reproducible, and easy to navigate for peer researchers, it is highly recommended to rename the core Jupyter notebooks to reflect their sequential order and primary functions.
+This repository is structured to be modular, reproducible, and easy to navigate. The core Jupyter notebooks are numbered to reflect their sequential order and primary functions in the pipeline.
 
-### 1. Data Preprocessing & Feature Extraction
-* **Current Name:** `merged2.ipynb`
-* **Suggested Name:** `01_feature_extraction_pipeline.ipynb`
-* **Description:** * Validates dataset completeness by iterating through participant and exam folders.
+### 1. `01_feature_extraction_pipeline.ipynb`
+* **Description:** 
+  * Validates dataset completeness by iterating through participant and exam folders.
   * Implements a robust Empatica E4 CSV parsing pipeline.
   * Applies a 60-second sliding window approach (with customizable overlap) ensuring $\ge 95\%$ signal coverage.
   * Extracts 22 statistical and physiological features across EDA, HR, ACC, and TEMP signals (e.g., slopes, motion power, SCR counts, medians).
   * Performs K-Means clustering and Silhouette scoring to discover optimal grouping ($k=3$) within the unlabeled physiological data.
 
-### 2. Semi-Supervised Model Training & Evaluation
-* **Current Name:** `SELF-LEARN.ipynb`
-* **Suggested Name:** `02_self_training_stress_classifier.ipynb`
-* **Description:** * Loads the WESAD labeled feature set and the newly extracted ExamStress features.
+### 2. `02_self_training_stress_classifier.ipynb`
+* **Description:** 
+  * Loads the WESAD labeled feature set and the newly extracted ExamStress features.
   * Cleans and maps WESAD labels into binary states: `0` (Baseline) and `1` (Stress).
   * Splits WESAD into training and holdout (calibration/test) sets.
   * Standardizes features using `StandardScaler`.
