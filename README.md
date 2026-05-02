@@ -1,4 +1,4 @@
-# Stress & Affective State Detection from Multimodal E4 Sensor Data
+# Stress Detection
 
 ## Overview
 This repository contains the data processing, feature extraction, and machine learning pipeline for detecting stress and affective states using Empatica E4 wristband data. The project leverages both a known labeled dataset (WESAD) and an unlabeled dataset (ExamStress) to build a robust semi-supervised classification model. 
