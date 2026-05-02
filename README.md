@@ -1,7 +1,7 @@
 # Stress Detection
 
 ## Overview
-This repository contains the data processing, feature extraction, and machine learning pipeline for detecting stress and affective states using Empatica E4 wristband data. The project leverages both a known labeled dataset (WESAD) and an unlabeled dataset (ExamStress) to build a robust semi-supervised classification model. 
+This repository contains the data processing, feature extraction, and machine learning pipeline for detecting stress and affective states using Empatica E4 wristband data. The project utilized both a known labeled dataset (WESAD) and an unlabeled dataset (ExamStress) to build a robust semi-supervised classification model. 
 
 The pipeline extracts physiological features (EDA, HR, ACC, TEMP) over sliding windows, clusters the data to discover inherent patterns, and utilizes a self-training (pseudo-labeling) methodology with Logistic Regression to classify Baseline vs. Stress states.
 
@@ -14,8 +14,8 @@ This repository is structured to be modular, reproducible, and easy to navigate.
 ### 1. `01_feature_extraction_pipeline.ipynb`
 * **Description:** 
   * Validates dataset completeness by iterating through participant and exam folders.
-  * Implements a robust Empatica E4 CSV parsing pipeline.
-  * Applies a 60-second sliding window approach (with customizable overlap) ensuring $\ge 95\%$ signal coverage.
+  * Implements Empatica E4 CSV parsing pipeline.
+  * Applies a sliding window approach (with customizable overlap) ensuring $\ge 95\%$ signal coverage.
   * Extracts 22 statistical and physiological features across EDA, HR, ACC, and TEMP signals (e.g., slopes, motion power, SCR counts, medians).
   * Performs K-Means clustering and Silhouette scoring to discover optimal grouping ($k=3$) within the unlabeled physiological data.
 
@@ -43,9 +43,8 @@ The extraction pipeline filters the raw physiological signals (e.g., using `scip
 Due to the lack of ground-truth labels in the ExamStress dataset, the modeling phase relies on **Self-Training**:
 1. A base Logistic Regression model is trained on the WESAD dataset.
 2. The model predicts probabilities on the unlabeled ExamStress data.
-3. Optimal thresholds for Class 0 and Class 1 are calibrated dynamically.
-4. Unlabeled samples passing the high-confidence threshold are assigned pseudo-labels and appended to the training set.
-5. The model is re-trained iteratively until no new high-confidence samples are found.
+3. Unlabeled samples passing the high-confidence threshold are assigned pseudo-labels and appended to the training set.
+4. The model is re-trained iteratively until no new high-confidence samples are found.
 
 ---
 
@@ -58,6 +57,5 @@ Ensure you have the following Python packages installed to run the notebooks:
 * `matplotlib`
 
 ## How to Use
-1. Place your raw Empatica E4 data inside the `data/` directory following the structure: `Participant_ID/Exam_Name/`.
-2. Run `01_feature_extraction_pipeline.ipynb` to generate the CSV files containing the 60-second windowed features.
-3. Run `02_self_training_stress_classifier.ipynb` to execute the pseudo-labeling pipeline and view the final ROC/Classification metrics.
+1. Run `01_feature_extraction_pipeline.ipynb` to generate the CSV files containing the 60-second windowed features.
+2. Run `02_self_training_stress_classifier.ipynb` to execute the pseudo-labeling pipeline and view the final ROC/Classification metrics.
