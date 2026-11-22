@@ -1,120 +1,122 @@
 
-# Experimental Reproduction
+# Subject-Independent Evaluation of Confidence-Thresholded Self-Training for Wearable Physiological Stress Classification
 
-This repository contains the Jupyter Notebook used to conduct the experiments and generate the results reported in the associated research paper.
+## Description
 
-## Repository Contents
+This repository contains the experimental implementation of a semi-supervised multimodal transfer learning framework for cross-domain stress and arousal detection using physiological signals collected through wearable devices.
 
-```text
-.
-└── final.ipynb
+The implementation uses the labeled WESAD dataset as the source domain and the unlabeled Wearable Exam Stress Dataset (ExamStress) as the target domain. It explores physiological feature extraction, machine learning classification, class imbalance handling, model calibration, and iterative self-training to investigate cross-domain generalization.
+
+The repository provides a Jupyter Notebook containing the complete experimental pipeline, from data preprocessing and feature engineering to model evaluation and result generation.
+
+## Dataset Information
+
+The experiments utilize multimodal physiological signals, including Electrodermal Activity (EDA), Heart Rate (HR), Accelerometer (ACC), and Skin Temperature (TEMP).
+
+Two datasets are used:
+
+* **WESAD (Wearable Stress and Affect Detection):** A labeled dataset used for source-domain model development and evaluation. Available at: https://www.kaggle.com/datasets/mohamedasem318/wesad-full-dataset
+* **Wearable Exam Stress Dataset (ExamStress):** An unlabeled target-domain dataset used to investigate cross-domain adaptation and semi-supervised learning. Available at: https://physionet.org/content/wearable-exam-stress/1.0.0/
+
+Download the datasets separately and ensure that their directory paths are correctly configured in the notebook before execution.
+
+## Code Information
+
+This repository currently contains one primary Jupyter Notebook:
+
+1. `final.ipynb`: Implements the complete experimental pipeline, including physiological signal preprocessing, 60-second window-based feature extraction, feature analysis, modality ablation, machine learning model development, class imbalance handling, probability calibration, iterative self-training, and cross-domain evaluation.
+
+The notebook also performs comparative experiments using multiple classification algorithms and sampling strategies. It includes subject-independent evaluation, nested cross-validation, ROC analysis, and subject-level cluster bootstrap confidence intervals.
+
+## Usage Instructions
+
+1. Clone this repository to your local machine.
+
+```bash
+git clone https://github.com/GitHub-JeetBhardwaj/StressDetection.git
+cd StressDetection
 ```
 
-## Requirements
+2. Download the WESAD and Wearable Exam Stress datasets using the links provided above.
 
-- Python 3.9 or later
-- Jupyter Notebook
-- WESAD dataset
-- A-WEAR EXAM Stress Dataset
+3. Extract the downloaded datasets and update their directory paths in the relevant configuration cells of `final.ipynb`.
 
-### Install Dependencies
-
-Run the following command to install the required Python libraries:
+4. Install the required Python dependencies.
 
 ```bash
 pip install numpy pandas matplotlib seaborn scipy scikit-learn imbalanced-learn jupyter
 ```
 
-## Datasets
-
-The experiments use two datasets:
-
-1. **WESAD Dataset** – Used for physiological signal analysis and model development.
-2. **A-WEAR EXAM Stress Dataset** – Used for cross-dataset evaluation and experimental analysis.
-
-Download the datasets from their respective official sources. Access to the datasets may require accepting their terms of use.
-
-Before executing the notebook, update the dataset directory paths in the notebook to match your local environment.
-
-## Running the Experiments
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-cd YOUR_REPOSITORY
-```
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-Alternatively, install the dependencies using the command provided above.
-
-### 3. Configure Dataset Paths
-
-Open `final.ipynb` and locate the dataset configuration cells.
-
-Update the paths for:
-- WESAD dataset
-- A-WEAR EXAM dataset
-
-Ensure that the datasets are accessible from the configured directories.
-
-### 4. Execute the Notebook
-
-Launch Jupyter Notebook:
+5. Launch Jupyter Notebook.
 
 ```bash
 jupyter notebook
 ```
 
-Open `final.ipynb` and execute all cells sequentially using **Run All**.
+6. Open `final.ipynb` and execute the notebook sequentially using **Run All**.
 
-The notebook performs the data preprocessing, feature extraction, model training, evaluation, and experimental analysis.
+7. The notebook will perform the preprocessing, feature extraction, model training, calibration, self-training, and evaluation procedures. It will also regenerate the experimental outputs and visualizations.
 
-## Reproducing Experimental Results
+**Note:** Intermediate CSV files, evaluation outputs, and generated figures are created during notebook execution. They are not included in this repository and must be regenerated by running the notebook.
 
-Executing the notebook sequentially regenerates the experimental results, including:
+## Requirements
 
-- Physiological signal preprocessing and feature extraction.
-- Feature-level analysis and correlation visualization.
-- Modality ablation experiments.
-- Stress prevalence sensitivity analysis.
-- Comparison of machine learning classifiers.
-- Class imbalance handling using different sampling strategies.
-- Model calibration and iterative self-training.
-- Subject-independent evaluation.
-- Nested cross-validation.
-- ROC curve analysis and performance comparisons.
-- Subject-level cluster bootstrap confidence intervals.
+To execute the notebook, the following Python libraries are required:
 
-The experiments use a fixed random seed (`SEED = 42`) wherever configured in the notebook to support reproducibility.
+* `numpy`
+* `pandas`
+* `scipy`
+* `scikit-learn`
+* `imbalanced-learn`
+* `matplotlib`
+* `seaborn`
+* `jupyter`
 
-## Generated Outputs
+Python 3.9 or later is recommended.
 
-During execution, the notebook generates intermediate data files, evaluation results, and visualizations used in the experimental analysis.
+## Methodology
 
-These outputs are generated locally and are not included in this repository. Execute the notebook to reproduce them.
+The experimental methodology investigates semi-supervised multimodal learning and cross-domain generalization through the following stages:
 
-## Reproducibility Notes
+1. **Physiological Signal Processing:** Processes EDA, HR, ACC, and TEMP signals from wearable sensor recordings and prepares them for window-based analysis.
 
-- Use the specified datasets and ensure their directory structures are correctly configured.
-- Execute notebook cells in their original sequence.
-- Maintain the configured random seed when reproducing experiments.
-- Ensure all required dependencies are installed.
-- Results may vary slightly depending on library versions, hardware, and execution environment.
+2. **Feature Extraction:** Extracts statistical and physiological features using a 60-second sliding-window approach to represent physiological variations.
 
-## Research Scope and Limitations
+3. **Feature and Modality Analysis:** Examines feature correlations and evaluates the contribution of individual physiological modalities through modality ablation experiments.
 
-The experiments are intended for academic research and experimental evaluation. Predictions generated through pseudo-labeling should not be interpreted as independently verified ground-truth labels.
+4. **Machine Learning Classification:** Evaluates multiple classification algorithms, including Logistic Regression, Random Forest, HistGradientBoosting, Support Vector Classifier, and Multi-Layer Perceptron.
 
-The findings should be interpreted within the limitations of the datasets, subject availability, and cross-domain differences.
+5. **Class Imbalance Handling:** Investigates different sampling strategies, including SMOTE, ADASYN, SMOTETomek, Random Undersampling, NearMiss, and cost-sensitive learning.
 
-## Citation
+6. **Model Calibration and Self-Training:** Applies probability calibration and iterative pseudo-labeling to incorporate high-confidence predictions from the unlabeled target-domain data into the training process.
 
-If you use this implementation or reproduce its experiments in your research, please cite the associated research paper.
+7. **Cross-Domain Evaluation:** Investigates model generalization using subject-independent evaluation, a locked holdout evaluation, and nested cross-validation.
 
-**Note:** This repository provides the experimental implementation in the form of a Jupyter Notebook. Dataset files and generated experimental outputs are maintained separately.
+8. **Statistical Analysis:** Uses ROC curves, performance comparisons, and subject-level cluster bootstrap confidence intervals to analyze experimental outcomes.
+
+## Experimental Results
+
+Running `final.ipynb` regenerates the experimental outputs, including:
+
+* Feature correlation visualizations.
+* Modality ablation comparisons.
+* Stress prevalence sensitivity analysis.
+* Classifier and sampling strategy performance comparisons.
+* ROC curves and performance heatmaps.
+* Cross-domain evaluation metrics.
+* Nested cross-validation results.
+* Subject-level bootstrap confidence intervals.
+
+The notebook uses a fixed random seed (`SEED = 42`) wherever configured to support reproducibility.
+
+## Citations
+
+If you utilize this implementation or reproduce the experiments in your research, please cite the associated research paper and acknowledge the original datasets.
+
+* **WESAD Dataset:** https://www.kaggle.com/datasets/mohamedasem318/wesad-full-dataset
+* **Wearable Exam Stress Dataset:** https://physionet.org/content/wearable-exam-stress/1.0.0/
+* **GitHub Repository:** https://github.com/GitHub-JeetBhardwaj/StressDetection
+
+## Contribution Guidelines
+
+This repository is intended for academic and research purposes. Contributions, reproducibility improvements, and methodological extensions are welcome through pull requests.
